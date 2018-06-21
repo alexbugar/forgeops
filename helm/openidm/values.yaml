@@ -27,19 +27,19 @@ useTLS: false
 # Specific values
 openidm:
   repo:
-    host: postgresql
-    port: 5432
-    user: openidm
-    password: openidm
-    schema: openidm
-    databaseName: openidm
+    host: userstore-0.userstore
+    port: 1389
+    user: cn=Directory Manager
+    password: password
+  #  schema: openidm
+  #  databaseName: openidm
   # Optional client secret for AM/IDM integration:
   idpconfig:
     clientsecret: password
 
 # Optional - if there is a DJ userstore configured
 userstore:
-  host: userstore-0.userstore
+  host: userstore-1.userstore
   password: password
   port: 1389
 

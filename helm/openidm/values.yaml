@@ -38,10 +38,10 @@ openidm:
     clientsecret: password
 
 # Optional - if there is a DJ userstore configured
-userstore:
-  host: userstore-1.userstore
-  password: password
-  port: 1389
+#userstore:
+#  host: userstore-1.userstore
+#  password: password
+#  port: 1389
 
 service:
   name: openidm

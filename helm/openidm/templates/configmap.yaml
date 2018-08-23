@@ -9,6 +9,12 @@ data:
   IDM_ENVCONFIG_DIRS: "/var/run/openidm/commons"
   JAVA_OPTS: {{ default "-Xmx1024m -server -XX:+UseG1GC" .Values.javaOpts }}
 
+#  IDM_ENVCONFIG_DIRS: "/opt/openidm/resolver"
+  OPENIDM_CLUSTER_REMOVE_OFFLINE_NODE_STATE: "true"
+  OPENIDM_CONFIG_REPO_ENABLED: "false"
+  OPENIDM_ANONYMOUS_PASSWORD: "anonymous"
+  OPENIDM_ADMIN_PASSWORD: "openidm-admin"
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -17,28 +23,17 @@ metadata:
 data:
   # todo: These need to be reviewed for 6.0.0
    boot.properties: |
-      openidm.repo.host={{.Values.openidm.repo.host}}
-      openidm.repo.port={{.Values.openidm.repo.port}}
-      openidm.repo.user={{.Values.openidm.repo.user}}
-      openidm.repo.password={{.Values.openidm.repo.password}}
-      openidm.repo.databaseName={{.Values.openidm.repo.databaseName}}
-      openidm.repo.schema={{.Values.openidm.repo.schema}}
 
       # This is here to suppress IDM crypting the password and writing out authentication.json
       openidm.anonymous.password=anonymous
 
       # Client password for IDM/AM integration
-      openidm.idpconfig.clientsecret={{ .Values.openidm.idpconfig.clientsecret }}
 
       # Use a variable for our ldap host & password
-      userstore.host={{.Values.userstore.host}}
-      userstore.password={{.Values.userstore.password}}
-      userstore.port={{default "1389" .Values.userstore.port}}
-      userstore.basecontext={{default "o=userstore" .Values.userstore.basecontext}}
       openidm.port.http=8080
       openidm.port.https=8443
       openidm.port.mutualauth=8444
-      openidm.host={{ template "externalFQDN" . }}
+      openidm.host=openidm.{{ .Release.Namespace }}{{ .Values.domain }}
 
       # Define external load balancer ports.
       openidm.lb.port.http=80
